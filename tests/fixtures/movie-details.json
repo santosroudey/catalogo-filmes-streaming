@@ -1,0 +1,35 @@
+{
+  "id": 550,
+  "title": "Clube da Luta",
+  "release_date": "1999-10-15",
+  "vote_average": 8.438,
+  "poster_path": "/p.jpg",
+  "backdrop_path": "/b.jpg",
+  "overview": "Um homem insone...",
+  "runtime": 139,
+  "genres": [{ "id": 18, "name": "Drama" }],
+  "credits": {
+    "cast": [
+      { "name": "Brad Pitt", "character": "Tyler Durden", "profile_path": "/bp.jpg" },
+      { "name": "Edward Norton", "character": "Narrador", "profile_path": null }
+    ]
+  },
+  "videos": {
+    "results": [
+      { "site": "YouTube", "type": "Teaser", "key": "teaser1" },
+      { "site": "YouTube", "type": "Trailer", "key": "trailer1" }
+    ]
+  },
+  "watch/providers": {
+    "results": {
+      "US": {
+        "link": "https://us",
+        "flatrate": [{ "provider_id": 1, "provider_name": "X", "logo_path": "/x.jpg" }]
+      },
+      "BR": {
+        "link": "https://www.themoviedb.org/movie/550/watch?locale=BR",
+        "flatrate": [{ "provider_id": 119, "provider_name": "Amazon Prime Video", "logo_path": "/prime.jpg" }]
+      }
+    }
+  }
+}
