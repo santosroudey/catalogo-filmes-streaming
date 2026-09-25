@@ -1,3 +1,5 @@
+if (process.env.TEST_DATABASE_URL) process.env.DATABASE_URL = process.env.TEST_DATABASE_URL;
+
 process.env.TMDB_READ_TOKEN ??= "test-token";
 process.env.DATABASE_URL ??= "postgresql://postgres:postgres@localhost:5432/catalogo_test";
 process.env.AUTH_SECRET ??= "test-secret";
