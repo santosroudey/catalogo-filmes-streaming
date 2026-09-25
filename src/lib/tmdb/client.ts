@@ -30,7 +30,8 @@ export async function tmdbFetch<T>(path: string, { params = {}, revalidate }: Op
   let res = await fetch(url, init);
   if (retryable(res.status)) {
     const retryAfter = Number(res.headers.get("Retry-After") ?? "1");
-    await sleep((Number.isFinite(retryAfter) ? retryAfter : 1) * 1000);
+    const delaySeconds = Number.isNaN(retryAfter) ? 1 : Math.min(Math.max(retryAfter, 0), 2);
+    await sleep(delaySeconds * 1000);
     res = await fetch(url, init);
   }
   if (!res.ok) throw new TmdbError(res.status, path);

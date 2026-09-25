@@ -35,6 +35,20 @@ describe("tmdbFetch", () => {
     await expect(tmdbFetch("/x", { revalidate: 60 })).rejects.toMatchObject({ status: 503, endpoint: "/x" });
   });
 
+  it("limita a espera de Retry-After a 2s mesmo com header alto", async () => {
+    let calls = 0;
+    server.use(http.get(tmdb("/y"), () => {
+      calls++;
+      return calls === 1
+        ? new HttpResponse(null, { status: 429, headers: { "Retry-After": "60" } })
+        : HttpResponse.json({ ok: 1 });
+    }));
+    const start = Date.now();
+    await expect(tmdbFetch("/y", { revalidate: 60 })).resolves.toEqual({ ok: 1 });
+    expect(Date.now() - start).toBeLessThan(3000);
+    expect(calls).toBe(2);
+  });
+
   it("não repete em 404 e lança TmdbError com status 404", async () => {
     let calls = 0;
     server.use(http.get(tmdb("/x"), () => { calls++; return new HttpResponse(null, { status: 404 }); }));
