@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Catálogo de Filmes em Streaming
 
-## Getting Started
+Catálogo de filmes disponíveis agora em serviços de streaming por assinatura no Brasil, usando a API do TMDB.
 
-First, run the development server:
+## Requisitos
+
+- Node.js 20+
+- Um banco Postgres (ex.: [Neon](https://neon.tech))
+
+## Configuração
+
+1. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+2. Copie `.env.example` para `.env` e preencha as variáveis:
+
+   | Variável | Onde obter |
+   | --- | --- |
+   | `TMDB_READ_TOKEN` | Token de leitura da API em [themoviedb.org/settings/api](https://www.themoviedb.org/settings/api) |
+   | `DATABASE_URL` | Connection string do seu banco Postgres/Neon |
+   | `AUTH_SECRET` | Gere com `npx auth secret` |
+   | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Credenciais OAuth em [console.cloud.google.com](https://console.cloud.google.com/apis/credentials); configure o redirect URI como `<sua-url>/api/auth/callback/google` |
+   | `AUTH_RESEND_KEY` | Chave de API em [resend.com](https://resend.com) |
+   | `EMAIL_FROM` | Endereço remetente dos e-mails de login (precisa estar verificado no Resend) |
+
+3. Aplique as migrations do banco:
+
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+4. Rode o servidor de desenvolvimento:
+
+   ```bash
+   npm run dev
+   ```
+
+   Abra [http://localhost:3000](http://localhost:3000).
+
+## Testes
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Os testes de integração (`tests/integration`) precisam de `TEST_DATABASE_URL` apontando para um banco Postgres de teste.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para os testes end-to-end (Playwright, com TMDB mockado):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run e2e
+```
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+O deploy recomendado é na [Vercel](https://vercel.com/new), configurando as mesmas variáveis de ambiente do `.env.example` no projeto. Rode `npx prisma migrate deploy` contra o banco de produção antes (ou como parte) do primeiro deploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Atribuição
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este produto usa a API do TMDB, mas não é endossado nem certificado pelo TMDB. Os dados de "onde assistir" são fornecidos pela JustWatch e devem ser creditados sempre que exibidos. Este projeto usa uma chave gratuita do TMDB para uso não comercial; monetizar exigiria uma licença comercial do TMDB.
