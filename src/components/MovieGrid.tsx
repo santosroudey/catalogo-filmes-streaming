@@ -11,8 +11,6 @@ export function MovieGrid({ initial, query }: { initial: Page<Movie>; query: str
   const sentinel = useRef<HTMLDivElement>(null);
   const hasMore = page < initial.totalPages;
 
-  useEffect(() => { setMovies(initial.results); setPage(initial.page); setFailed(false); }, [initial]);
-
   useEffect(() => {
     const el = sentinel.current;
     if (!el || !hasMore || failed) return;

@@ -14,7 +14,7 @@ async function CatalogPage({ filters }: { filters: CatalogFilters }) {
       {page.results.length === 0 ? (
         <p className="text-neutral-400">Nenhum filme com esses filtros. <Link href="/?servicos=" className="underline">Limpar filtros</Link></p>
       ) : (
-        <MovieGrid initial={page} query={query} />
+        <MovieGrid key={query} initial={page} query={query} />
       )}
     </>
   );
