@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import details from "../fixtures/movie-details.json";
 import { toMovie, toMovieDetails, toPage, imageUrl } from "@/lib/tmdb/mappers";
+import type { RawDetails } from "@/lib/tmdb/types";
 
 describe("mappers", () => {
   it("toMovie converte campos e arredonda nota para 1 casa", () => {
@@ -23,7 +24,7 @@ describe("mappers", () => {
   });
 
   it("toMovieDetails sem BR, sem vídeos e sem sinopse", () => {
-    const d = toMovieDetails({ ...(details as never), overview: "", videos: { results: [] }, "watch/providers": { results: {} } });
+    const d = toMovieDetails({ ...(details as unknown as RawDetails), overview: "", videos: { results: [] }, "watch/providers": { results: {} } });
     expect(d.providers).toEqual([]);
     expect(d.watchLink).toBeNull();
     expect(d.trailerKey).toBeNull();

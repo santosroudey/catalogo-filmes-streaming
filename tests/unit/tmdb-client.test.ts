@@ -38,7 +38,7 @@ describe("tmdbFetch", () => {
   it("não repete em 404 e lança TmdbError com status 404", async () => {
     let calls = 0;
     server.use(http.get(tmdb("/x"), () => { calls++; return new HttpResponse(null, { status: 404 }); }));
-    const err = await tmdbFetch("/x", { revalidate: 60 }).catch((e) => e);
+    const err = (await tmdbFetch("/x", { revalidate: 60 }).catch((e: unknown) => e)) as TmdbError;
     expect(err).toBeInstanceOf(TmdbError);
     expect(err.status).toBe(404);
     expect(calls).toBe(1);
