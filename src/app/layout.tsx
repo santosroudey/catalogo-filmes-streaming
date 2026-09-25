@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Attribution } from "@/components/Attribution";
+import { UserMenu } from "@/components/UserMenu";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <input name="q" placeholder="Buscar filme…" aria-label="Buscar filme"
                 className="rounded bg-neutral-800 px-3 py-1 text-sm" />
             </form>
-            {/* Task 9 adiciona aqui <UserMenu /> */}
+            <UserMenu />
           </nav>
         </header>
         <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
