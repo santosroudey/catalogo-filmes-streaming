@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { auth } from "@/auth";
 import { Filters } from "@/components/Filters";
 import { MovieGrid } from "@/components/MovieGrid";
-import { filtersToQuery, parseFilters, type CatalogFilters, type SearchParams } from "@/lib/filters";
+import { resolveFilters } from "@/lib/default-filters";
+import { filtersToQuery, type CatalogFilters, type SearchParams } from "@/lib/filters";
+import { getUserProviders } from "@/lib/lists";
 import { discover, getGenres, getProviders } from "@/lib/tmdb/catalog";
 
 async function CatalogPage({ filters }: { filters: CatalogFilters }) {
@@ -22,5 +25,7 @@ async function CatalogPage({ filters }: { filters: CatalogFilters }) {
 
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const sp = await searchParams;
-  return <CatalogPage filters={parseFilters(sp)} />;
+  const session = await auth();
+  const saved = session?.user?.id ? await getUserProviders(session.user.id) : null;
+  return <CatalogPage filters={resolveFilters(sp, saved)} />;
 }
