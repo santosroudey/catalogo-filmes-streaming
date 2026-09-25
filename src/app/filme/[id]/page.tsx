@@ -61,7 +61,9 @@ export default async function FilmePage({ params }: Props) {
             ))}
           </div>
         )}
-        <p className="mt-2 text-xs text-neutral-500">Dados de disponibilidade: JustWatch.</p>
+        {movie.providers.length > 0 && (
+          <p className="mt-2 text-xs text-neutral-500">Dados de disponibilidade: JustWatch.</p>
+        )}
       </section>
 
       {movie.trailerKey && (
@@ -78,8 +80,8 @@ export default async function FilmePage({ params }: Props) {
         <section>
           <h2 className="mb-3 text-xl font-semibold">Elenco</h2>
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-6">
-            {movie.cast.map((c) => (
-              <li key={c.name + c.character} className="text-sm">
+            {movie.cast.map((c, i) => (
+              <li key={`${i}-${c.name}`} className="text-sm">
                 <p className="font-medium">{c.name}</p>
                 <p className="text-neutral-400">{c.character}</p>
               </li>
