@@ -12,6 +12,10 @@ describe("parseFilters", () => {
       .toEqual({ providers: [8], page: 1 });
   });
 
+  it("remove providers duplicados", () => {
+    expect(parseFilters({ servicos: "8,8" }).providers).toEqual([8]);
+  });
+
   it.each([["0", 1], ["-5", 1], ["9999", 500], ["abc", 1], [undefined, 1]])(
     "pagina=%s vira %s", (pagina, expected) => {
       expect(parseFilters({ pagina }).page).toBe(expected);

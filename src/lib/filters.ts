@@ -14,10 +14,12 @@ function pick<T>(schema: z.ZodType<T>, raw: string | undefined): T | undefined {
 }
 
 export function parseFilters(sp: SearchParams): CatalogFilters {
-  const providers = (first(sp.servicos) ?? "")
-    .split(",")
-    .map((s) => pick(posInt, s.trim()))
-    .filter((n): n is number => n !== undefined);
+  const providers = [...new Set(
+    (first(sp.servicos) ?? "")
+      .split(",")
+      .map((s) => pick(posInt, s.trim()))
+      .filter((n): n is number => n !== undefined),
+  )];
 
   const pageRaw = Number(first(sp.pagina));
   const page = Number.isInteger(pageRaw) && pageRaw >= 1 ? Math.min(pageRaw, MAX_PAGE) : 1;
