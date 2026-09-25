@@ -3,11 +3,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { setInList, setUserProviders, type ListKind } from "@/lib/lists";
+import { parseToggleInput } from "@/lib/lists-input";
 
 export async function toggleList(tmdbId: number, type: ListKind, on: boolean) {
+  const input = parseToggleInput(tmdbId, type, on);
+  if (!input) return { ok: false as const, reason: "invalid" as const };
   const session = await auth();
   if (!session?.user?.id) return { ok: false as const, reason: "unauthenticated" as const };
-  await setInList(session.user.id, tmdbId, type, on);
+  await setInList(session.user.id, input.tmdbId, input.type, input.on);
   revalidatePath("/minha-lista");
   return { ok: true as const };
 }

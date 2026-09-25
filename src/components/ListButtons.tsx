@@ -25,7 +25,8 @@ export function ListButtons({ tmdbId, initial, loggedIn }: { tmdbId: number; ini
       try {
         const r = await toggleList(tmdbId, type, next[key]);
         if (r.ok) setState(next);
-        else setError("Faça login novamente.");
+        else if (r.reason === "unauthenticated") setError("Faça login novamente.");
+        else setError("Não foi possível salvar. Tente de novo.");
       } catch {
         setError("Não foi possível salvar. Tente de novo.");
       }
